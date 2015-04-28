@@ -5,9 +5,7 @@ GirlsCtrl = ($scope, Girl, Category) ->
     $scope.current = new Girl()
     $scope.girls = Girl.query()
     $scope.test = off
-
-    $scope.edit = (girl) ->
-        $scope.current = girl
+    update_categories = ->
         $scope.current._categories = {
         }
         _.each $scope.categories, (category) ->
@@ -17,6 +15,10 @@ GirlsCtrl = ($scope, Girl, Category) ->
             result = _.find $scope.current.categories, (_category) ->
                 category.category_id is _category.category_id
             $scope.current._categories[category.category_id] = result?
+
+    $scope.edit = (girl) ->
+        $scope.current = girl
+        update_categories()
     $scope.save = (callback) ->
         unless typeof $scope.current.name is 'string' and $scope.current.name isnt ''
             alert "Fill name first"
@@ -25,8 +27,11 @@ GirlsCtrl = ($scope, Girl, Category) ->
             alert "Fill description first"
             return
         $scope.current.categories = []
+        categories = $scope.categories.map (category) -> category.category_id
         _.each $scope.current._categories, (has, category_id) ->
-            if has
+            if categories.indexOf(category_id) is -1
+                delete $scope.current._categories[category_id]
+            else if has
                 $scope.current.categories.push category_id
         index = -1
         if $scope.current.girl_id?
@@ -39,6 +44,7 @@ GirlsCtrl = ($scope, Girl, Category) ->
             else
                 $scope.girls.splice index, 1, girl
             $scope.current = girl
+            update_categories()
             if typeof callback is 'function'
                 callback()
     $scope.destroy = (girl) ->

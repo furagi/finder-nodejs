@@ -31,7 +31,7 @@ module.exports = class SessionsController extends ApplicationController
                     next null, girl
                     return
                 categories = _.map categories, (category) -> new Categories category
-                girl.set_categories categories, (err) -> next err, girl
+                girl.add_categories categories, next
         ], (err, girl) ->
             if err
                 res.status(500).send err.message or err
@@ -42,6 +42,7 @@ module.exports = class SessionsController extends ApplicationController
     update: (req, res) ->
         name = req.param 'name'
         description = req.param 'description'
+        categories = req.param 'categories'
         unless typeof name is 'string' and name isnt ''
             res.status(400).send "Wrong name"
             return
@@ -55,6 +56,12 @@ module.exports = class SessionsController extends ApplicationController
                     if description
                         girl.description = description
                     girl.save next
+            (girl, next) ->
+                unless categories?.length > 0
+                    next()
+                    return
+                categories = _.map categories, (category) -> new Categories category
+                girl.update_categories categories, next
         ], (err, girl) ->
             if err
                 res.status(500).send err.message or err

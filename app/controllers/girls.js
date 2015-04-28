@@ -61,9 +61,7 @@ module.exports = SessionsController = (function(_super) {
         categories = _.map(categories, function(category) {
           return new Categories(category);
         });
-        return girl.set_categories(categories, function(err) {
-          return next(err, girl);
-        });
+        return girl.add_categories(categories, next);
       }
     ], function(err, girl) {
       if (err) {
@@ -75,9 +73,10 @@ module.exports = SessionsController = (function(_super) {
   };
 
   SessionsController.prototype.update = function(req, res) {
-    var description, name;
+    var categories, description, name;
     name = req.param('name');
     description = req.param('description');
+    categories = req.param('categories');
     if (!(typeof name === 'string' && name !== '')) {
       res.status(400).send("Wrong name");
       return;
@@ -95,6 +94,15 @@ module.exports = SessionsController = (function(_super) {
           }
           return girl.save(next);
         }
+      }, function(girl, next) {
+        if (!((categories != null ? categories.length : void 0) > 0)) {
+          next();
+          return;
+        }
+        categories = _.map(categories, function(category) {
+          return new Categories(category);
+        });
+        return girl.update_categories(categories, next);
       }
     ], function(err, girl) {
       if (err) {

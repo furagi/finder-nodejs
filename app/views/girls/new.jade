@@ -5,7 +5,7 @@ h2
   button(ng-click="clear()") clear
   button(ng-click="save()") save
 .if-select-model(ng-if="current.files.length > 0")
-  img(src="{{current.main_photo()}}", alt="")
+  img(ng-src="{{current.main_photo()}}", alt="")
 .form-group
   label(for='namemodels')
   input#namemodels.form-control(type='text', placeholder='Enter name', ng-model="current.name")
@@ -44,7 +44,7 @@ p select categories
 p(ng-if="current.files.length > 0") Have photo
 ul(ng-if="current.files.length > 0")
   li(ng-repeat="file in current.files" ng-class="{main: file.is_main}")
-    img(src="{{file.path}}", alt="")
+    img(ng-src="{{file.path}}", alt="")
     a(href="", ng-click="delete_file(file)")
       i.fa.fa-times
     a(href="") main

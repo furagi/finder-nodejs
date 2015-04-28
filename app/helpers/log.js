@@ -36,14 +36,18 @@ var get_stack = function() {
     return stack;
 };
 
-var log = function(level, message) {
+var log = function(level, message, log_object) {
     if(_log[level] && _log[level].priority < priority) {
         return;
     }
     var format_args = [message];
     for (var i = 2; i < arguments.length; ++i) {
         if(!(arguments[i] === null || arguments[i] === undefined)) {
-            format_args.push(arguments[i]);
+            arg = arguments[i];
+            try {
+                arg = JSON.stringify(arg);
+            } catch (e) {}
+            format_args.push(arg);
         }
     }
     message = util.format.apply(null, format_args).trim();
