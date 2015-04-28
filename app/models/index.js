@@ -12,11 +12,11 @@ models = [
     file: 'categories',
     model_name: 'category'
   }, {
-    file: 'files',
-    model_name: 'file'
-  }, {
     file: 'girls',
     model_name: 'girl'
+  }, {
+    file: 'files',
+    model_name: 'file'
   }, {
     file: 'users',
     model_name: 'user'

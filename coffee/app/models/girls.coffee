@@ -1,4 +1,5 @@
 _ = require 'underscore'
+fs = require 'fs'
 async = require 'async'
 
 module.exports = (db) ->
@@ -10,13 +11,20 @@ module.exports = (db) ->
         profile_photo: {type: 'text'}
     }, {
         methods: {
-            add_photo: (callback) ->
+            add_file: (file, callback) ->
+                async.waterfall [
+
+                ]
                 callback()
         }
     }
 
     Girls.hasMany 'categories', db.models.category, {}, {
         autoFetch: true
+        mergeId: 'girl_id'
+        mergeAssocId: 'category_id'
+        # reverse: 'girls'
         mergeTable: 'girl_to_category'
         getAccessor: 'get_categories'
+        setAccessor: 'set_categories'
     }

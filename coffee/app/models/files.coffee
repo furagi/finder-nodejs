@@ -15,6 +15,7 @@ module.exports = (db) ->
         }
 
     Files.hasOne 'girl', db.models.girl, {}, {
+        field: 'girl_id'
         autoFetch: true
         reverse: "files"
     }

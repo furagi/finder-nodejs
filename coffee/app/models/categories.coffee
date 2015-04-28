@@ -11,6 +11,9 @@ module.exports = (db) ->
 
     Categories.hasMany 'girls', db.models.girl, {}, {
         autoFetch: true
+        mergeId: 'category_id'
+        mergeAssocId: 'girl_id'
         mergeTable: 'girl_to_category'
         getAccessor: 'get_girls'
+        # reverse: 'categories'
     }

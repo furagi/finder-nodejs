@@ -1,6 +1,5 @@
-#= require angular-file-upload/angular-file-upload-shim.min
 #= require angular/angular.min
-#= require angular-file-upload/angular-file-upload.min
+#= require angular-file-upload/angular-file-upload
 #= require angular/angular-cookies.min
 #= require angular/angular-resource.min
 #= require angular/angular-route.min

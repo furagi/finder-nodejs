@@ -4,26 +4,41 @@ finder_services = angular.module 'finder_services'
 
 finder_services.factory 'Girl', [
     '$resource'
-    ($resource) ->
+    '$upload'
+    ($resource, $upload) ->
         Girl = $resource '/girls/:girl_id', {
                 girl_id: '@girl_id'
             }, {
             }
-        Girl::add_file = (callback) ->
+        Girl::add_file = (file, callback) ->
             unless @files_left?
                 files_left = 0
             @files_left++
-            $upload.upload {
+            uploader = $upload.upload {
                 url: "/girls/#{@girl_id}/files"
                 method: 'POST'
-                file: @file
+                file: file
             }
+            .progress (event) =>
+                @progress = Math.round 100 * event.loaded / event.total
             .error (err) ->
                 callback err
             .success (data, status, headers, config) =>
+                unless @files
+                    @files = []
                 @files.push data
-                @save callback
-            .always ->
+                callback()
+            .finally =>
                 @files_left--
+        Girl::main_photo = ->
+            main = _.find @files, (file) ->
+                file.type is 'photo' and file.is_main
+            return main?.path
+        Girl::has_category = (category) ->
+            unless @categories?.length > 0
+                return off
+            result = _.find @categories, (_category) ->
+                category.category_id is _category.category_id
+            return result?
         Girl
 ]

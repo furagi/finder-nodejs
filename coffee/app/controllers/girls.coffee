@@ -1,9 +1,13 @@
 orm = require 'node-orm'
 async = require 'async'
+_ = require 'underscore'
+path = require 'path'
 ApplicationController = require './application'
 
 module.exports = class SessionsController extends ApplicationController
     Girls = orm.models.girl
+    Files = orm.models.file
+    Categories = orm.models.category
 
     index: (req, res) ->
         Girls.all (err, girls) ->
@@ -15,11 +19,20 @@ module.exports = class SessionsController extends ApplicationController
     create: (req, res) ->
         name = req.param 'name'
         description = req.param 'description'
+        categories = req.param('categories') or []
 
         unless typeof name is 'string' and name isnt ''
-            res.status(400).end()
+            res.status(400).send "Wrong name"
             return
-        Girls.create {name, description}, (err, girl) ->
+        async.waterfall [
+            (next) -> Girls.create {name, description}, next
+            (girl, next) ->
+                unless categories.length > 0
+                    next null, girl
+                    return
+                categories = _.map categories, (category) -> new Categories category
+                girl.set_categories categories, (err) -> next err, girl
+        ], (err, girl) ->
             if err
                 res.status(500).send err.message or err
             else
@@ -30,10 +43,10 @@ module.exports = class SessionsController extends ApplicationController
         name = req.param 'name'
         description = req.param 'description'
         unless typeof name is 'string' and name isnt ''
-            res.status(400).end()
+            res.status(400).send "Wrong name"
             return
         async.waterfall [
-            (next) -> Girls.one {girl_id: req.params.id}, next
+            (next) -> Girls.get req.params.id, next
             (girl, next) ->
                 unless girl
                     next new Error "Can't find girl"
@@ -51,7 +64,7 @@ module.exports = class SessionsController extends ApplicationController
 
     destroy: (req, res) ->
         async.waterfall [
-            (next) -> Girls.one {girl_id: req.params.id}, next
+            (next) -> Girls.get req.params.id, next
             (girl, next) ->
                 unless girl
                     next new Error "Can't find girl"
@@ -61,15 +74,35 @@ module.exports = class SessionsController extends ApplicationController
             if err
                 res.status(500).send err.message or err
             else
-                res.redirect req.headers.referer or '/admin'
+                res.end()
 
     add_file: (req, res) ->
+        file = req.files?.file
+        unless file?
+            res.status(400).send "Wrong file"
+            return
+        id = req.params.id
+        async.waterfall [
+            (next) -> girl = Girls.get id, next
+            (girl, next) ->
+                unless girl.files.length > 0
+                    file.is_main = on
+                file.path = file.path.replace path.resolve('public'), '/static'
+                file.type = 'photo'
+                file = new Files file
+                girl.setFiles file, next
+        ], (err, girl) ->
+            if err
+                res.status(500).send err.message or err
+            else
+                res.send girl
+
 
 
 
     destroy_file: (req, res) ->
         async.waterfall [
-            (next) -> Girls.one {girl_id: req.params.id}, next
+            (next) -> Girls.get req.params.id, next
             (girl, next) ->
                 unless girl
                     next new Error "Can't find girl"

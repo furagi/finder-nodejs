@@ -20,6 +20,6 @@ module.exports = function(app) {
   app.post('/girls', girls.allow_only_admin, multipart, girls.create);
   app["delete"]('/girls/:id', girls.allow_only_admin, girls.destroy);
   app.post('/girls/:id', girls.allow_only_admin, girls.update);
-  app.post('/girls/:id/files', girls.allow_only_admin, multipart, girls.update);
+  app.post('/girls/:id/files', girls.allow_only_admin, multipart, girls.add_file);
   return app["delete"]('/girls/:id/files/:id', girls.allow_only_admin, girls.destroy_file);
 };
