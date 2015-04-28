@@ -1,10 +1,10 @@
 /*
-*= require_self
 *= require bootstrap/bootstrap.min
 *= require font-awesome/font-awesome
 *= requrie animate
 *= require lightGallery
 *= require slick
+*= require_self
 */
 
 
@@ -347,7 +347,9 @@ $desktop: 1366px;
     margin-bottom: 2em;
     height: 60px;
     overflow: hidden;
-
+    @include respond-to(medium) {
+      height: auto;
+    }
     h2 {
       font-family: $admin;
       font-size: 20px;
@@ -613,15 +615,10 @@ $desktop: 1366px;
     .add-categories {
       background: #333;
       min-height: 500px;
-      /*height: 100vh;*/
+      height: 100vh;
       color: #fff;
-      p.edit-now {
-        background: #fff;
-        color: #111;
-        border-radius: 15px;
-        font-size: 16px;
-        padding: .2em .5em;
-
+      @include respond-to(medium) {
+        height: auto;
       }
       ul {
         padding: 0;
@@ -638,8 +635,13 @@ $desktop: 1366px;
 
             transition: all .5s;
 
-/*            &.edit-now {
-            }*/
+            &.edit-now {
+              background: #fff;
+              color: #111;
+              border-radius: 15px;
+              font-size: 16px;
+              padding: .2em .5em;
+            }
           }
           button {
 
@@ -661,3 +663,47 @@ $desktop: 1366px;
 
 }
 
+.login {
+  .hero-text-box {
+    background: #000;
+    height: 300px;
+    .hero-text {
+      background-size: cover;
+      width: 36%;
+    }
+  }
+  .login-box {
+    h2 {
+
+      font-size: 15px;
+      text-transform: uppercase;
+      font-family: $admin;
+      font-weight: 800;
+    }
+    form {
+      width: 300px;
+      margin: 2em auto;
+      input {
+        border: 2px solid #000;
+        font-family: $admin;
+        border-radius: 10px;
+      }
+      label {
+        font-family: $admin;
+        font-size: 13px;
+      }
+      button {
+        background: #000;
+        border: 0;
+        border-radius: 10px;
+        font-family: $admin;
+        color: #fff;
+        text-align: center;
+        width: 120px;
+
+      }
+    }
+
+
+  }
+}
