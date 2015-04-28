@@ -1,0 +1,74 @@
+h2
+  i.fa.fa-camera
+  |Add/Edit models
+.controls-button
+  button clear
+  button save
+.if-select-model
+  img(src="{{new_girl.main_photo}}", alt="")
+.form-group
+  label(for='namemodels')
+  input#namemodels.form-control(type='text', placeholder='Enter name', ng-model="new_girl.name")
+.form-group
+  textarea.form-control(rows='3', placeholder='Enter description', ng-model="new_girl.description")
+p select categories
+.select-categories-for-model
+  .checkbox.disabled
+    label
+      input(type='checkbox' disabled checked)
+      |all
+  .checkbox
+    label
+      input(type='checkbox')
+      |new
+  .checkbox
+    label
+      input(type='checkbox')
+      |top
+  .checkbox
+    label
+      input(type='checkbox')
+      |Belarus
+  .checkbox
+    label
+      input(type='checkbox')
+      |Belgium
+  .checkbox
+    label
+      input(type='checkbox')
+      |Belize
+  .checkbox
+    label
+      input(type='checkbox')
+      |Canada
+.clear-fix
+.form-group
+  .file-upload-wrapper(data-text='Select your file!')
+    input.file-upload-field(ng-file-select="add_file($files)" type='file', name='file-upload-field')
+.upload-img-progress
+  .name-and-disable
+    span
+      |Name file
+    button
+      i.fa.fa-times
+
+  .progress
+    .progress-bar(role='progressbar', aria-valuenow='10', aria-valuemin='0', aria-valuemax='100', style='width: 10%;')
+      span.sr-only
+.upload-img-progress
+  .name-and-disable
+    span
+      |Name file
+    button
+      i.fa.fa-times
+
+  .progress
+    .progress-bar(role='progressbar', aria-valuenow='80', aria-valuemin='0', aria-valuemax='100', style='width: 80%;')
+      span.sr-only
+p Have photo
+ul
+  li(ng-repeat="file in new_girl.files" ng-class="{main: file.is_main}")
+    img(src="{{file.path}}", alt="")
+    a(href="", ng-click="delete_file(file)")
+      i.fa.fa-times
+    a(href="") main

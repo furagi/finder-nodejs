@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+
+  head
+    title MDLS'teem != title
+
+    meta(charset='utf-8')
+    meta(name='description', content='add descriptio')
+    meta(property='og:title', content='')
+    meta(property='og:site_name', content='')
+    meta(property='og:url', content='')
+    meta(property='og:description', content='')
+    meta(property='og:image', content='')
+    meta(property='og:type', content='website')
+    meta(name='twitter:card', content='summary_large_image')
+    meta(name='twitter:site', content='')
+    meta(name='twitter:title', content='')
+    meta(name='twitter:description', content='')
+    meta(name='twitter:image:src', content='')
+    meta(name='robots', content='index, follow')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='canonical', href='')
+    !=css('app.css')
+
+
+  body.login
+    .container.hero
+
+      .row
+        .col-md-12.hero-text-box
+          .hero-text
+      .row
+        .col-md-12.login-box
+          form(action='/sessions', method="POST")
+            h2 login
+            .form-group
+
+              input.form-control(type='email', name='email', placeholder='Enter email')
+            .form-group
+
+              input.form-control(type='password', name='password', placeholder='Password')
+            .checkbox
+              label
+                input(type='checkbox')
+                |  Check me out
+            button.btn.btn-default(type='submit') Login
+    !=js('app.js')
+

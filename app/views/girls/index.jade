@@ -1,0 +1,18 @@
+.col-md-5.add-models(ng-include="'girl_new'")
+.col-md-7.edit-models
+  h2
+    i.fa.fa-eraser
+    |Select models
+  .form-group.search-box
+    label(for='search')
+    input#search.form-control(type='text', placeholder='search models')
+    button.search
+      i.fa.fa-search
+  ol.breadcrumb
+    li
+      a(href='#') All models
+    li
+      a(href='#') Top
+    li.active {{current.name}}
+  ul
+    li(ng-repeat="girl in girls" ng-include="'girl'")

@@ -1,0 +1,108 @@
+extends layout
+block content
+  .container-fluid.admin(ng-app="admin_app" ng-controller="AdminCtrl")
+    .col-md-12
+      .row.header
+        .col-md-2
+          h1 MDLS teem
+          span.icon-glass admin panel
+        .col-md-9.social
+          span edit social
+          ul
+            li
+              p
+                i.fa.fa-facebook
+                |facebook
+              .form-group
+                input(type='text', value='facebook.com/example')
+            li
+              p
+                i.fa.fa-twitter
+                |twitter
+              .form-group
+                input(type='text', value='twitter.com/example')
+
+            li
+              p
+                i.fa.fa-instagram
+                |instagram
+              .form-group
+                input(type='text', value='instagram.com/example')
+            li
+              button
+                |save
+        .col-md-1
+          button.sign-out(data-form, data-action='/sessions/logout', data-method='delete')
+            i.fa.fa-sign-out
+            |sign out
+
+      .row.controls
+
+
+        .col-md-3.edit-hero
+          h2
+            i.fa.fa-university
+            |Edit hero
+          .controls-button
+            button save
+          p add slide
+          ul
+            li
+              img(src="/static/img/h1.jpg", alt="")
+              a(href="")
+                i.fa.fa-times
+            li
+              img(src="/static/img/h2.jpg", alt="")
+              a(href="")
+                i.fa.fa-times
+            li
+              img(src="/static/img/h3.jpg", alt="")
+              a(href="")
+                i.fa.fa-times
+            li
+              img(src="/static/img/h4.jpg", alt="")
+              a(href="")
+                i.fa.fa-times
+          .clear-fix
+          .form-group
+            .file-upload-wrapper(data-text='Select your file!')
+              input.file-upload-field(name='file-upload-field', type='file', value='')
+          .upload-img-progress
+            .name-and-disable
+              span
+                |Name file
+              button
+                i.fa.fa-times
+
+            .progress
+              .progress-bar(role='progressbar', aria-valuenow='60', aria-valuemin='0', aria-valuemax='100', style='width: 60%;')
+                span.sr-only
+          p edit text in hero
+          .text-box
+            span main title
+            h4(contenteditable='true') MDLS TEEM
+          .text-box
+            span main description
+            h5(contenteditable='true') Keytar Vice Thundercats, actually disrupt squid gluten-free YOLO you probably haven't heard of them normcore meh. Cold-pressed mixtape Brooklyn, whatever occupy chambray quinoa flexitarian before they sold out flannel meh Carles wayfarers. +1 fanny pack Carles,
+
+        .col-md-7
+          ng-include(src="'girls'", ng-controller="GirlsCtrl")
+        .col-md-2.add-categories
+          ng-include(src="'categories'", ng-controller="CategoriesCtrl")
+
+    script#categories(type="text/ng-template")
+      include categories/index
+    script#category(type="text/ng-template")
+      include categories/edit
+    script#category_new(type="text/ng-template")
+      include categories/new
+    script#girls(type="text/ng-template")
+        include girls/index
+    script#girl(type="text/ng-template")
+        include girls/edit
+    script#girl_new(type="text/ng-template")
+        include girls/new
+block scripts
+
+
+  != js('application.js')

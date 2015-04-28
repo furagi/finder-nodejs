@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+
+  head
+    title MDLS'teem #{title}
+
+    meta(charset='utf-8')
+    meta(name='description', content='add descriptio')
+    meta(property='og:title', content='')
+    meta(property='og:site_name', content='')
+    meta(property='og:url', content='')
+    meta(property='og:description', content='')
+    meta(property='og:image', content='')
+    meta(property='og:type', content='website')
+    meta(name='twitter:card', content='summary_large_image')
+    meta(name='twitter:site', content='')
+    meta(name='twitter:title', content='')
+    meta(name='twitter:description', content='')
+    meta(name='twitter:image:src', content='')
+    meta(name='robots', content='index, follow')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='canonical', href='')
+    != js('mylibs/modernizr.custom.js')
+    != css('app.css')
+  body
+    block content
+    != js('app.js')
+    block scripts
+
