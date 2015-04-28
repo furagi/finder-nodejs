@@ -10,6 +10,7 @@ multipart = multipart {
 
 module.exports = (app) ->
     girls = new GirlsController()
+    app.get '/girls', girls.index
     app.post '/girls', girls.allow_only_admin, multipart, girls.create
     app.delete '/girls/:id', girls.allow_only_admin, girls.destroy
     app.post '/girls/:id', girls.allow_only_admin, girls.update

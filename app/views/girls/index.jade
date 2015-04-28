@@ -15,4 +15,4 @@
       a(href='#') Top
     li.active {{current.name}}
   ul
-    li(ng-repeat="girl in girls" ng-include="'girl'")
+    li(ng-repeat="girl in girls" ng-include="'girl'", ng-click="edit(girl)")

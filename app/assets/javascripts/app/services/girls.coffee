@@ -10,6 +10,8 @@ finder_services.factory 'Girl', [
             }, {
             }
         Girl::add_file = (callback) ->
+            unless @files_left?
+                files_left = 0
             @files_left++
             $upload.upload {
                 url: "/girls/#{@girl_id}/files"

@@ -2,27 +2,52 @@
 
 
 GirlsCtrl = ($scope, Girl, Category) ->
-    $scope.new_girl = new Girl()
-    $scope.current = null
-    $scope.add = ->
-        $scope.new_girl.$save (girl) ->
-            $scope.girls.push girl
+    $scope.current = new Girl()
+    $scope.girls = Girl.query()
+
     $scope.edit = (girl) ->
-        if girl.editing
-            girl.$save ->
-                $scope.current = null
-                girl.editing = off
-            return
-        if $scope.current
-            $scope.current.editing = off
-        girl.editing = on
         $scope.current = girl
+    $scope.save = ->
+        unless typeof $scope.current.name is 'string' and $scope.current.name isnt ''
+            alert "Fill name first"
+            return
+        unless typeof $scope.current.description is 'string' and $scope.current.description isnt ''
+            alert "Fill description first"
+            return
+        index = -1
+        if $scope.current.girl_id?
+            _.each $scope.girls, (girl, _index) ->
+                if girl.girl_id is $scope.current.girl_id
+                    index = _index
+        $scope.current.$save (girl) ->
+            if index is -1
+                $scope.girls.push girl
+            else
+                $scope.girls.splice index, 1, girl
+            $scope.current = girl
     $scope.destroy = (girl) ->
         if girl.editing
             $scope.current = null
         index = $scope.girls.indexOf girl
         girl.$delete ->
             $scope.girls.splice index, 1
+    $scope.add_file = ($files) ->
+        unless typeof $scope.current.name is 'string' and $scope.current.name isnt ''
+            alert "Fill name first"
+            return
+        unless typeof $scope.current.description is 'string' and $scope.current.description isnt ''
+            alert "Fill description first"
+            return
+        $scope.current.$save ->
+            $scope.current.file = $files[0]
+            $scope.current.add_file (err, girl) ->
+                if err?
+                    alert err.data or err.statusText or err
+                else
+                    $scope.girls.push girl
+                    $scope.current = girl
+    $scope.clear = ->
+        $scope.current = new Girl()
 
     # $scope.dmca_scan_types = ['torrent', 'page']
     # $scope.girls_loading = off

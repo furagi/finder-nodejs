@@ -1,4 +1,5 @@
 orm = require 'node-orm'
+async = require 'async'
 ApplicationController = require './application'
 
 module.exports = class SessionsController extends ApplicationController
@@ -9,7 +10,7 @@ module.exports = class SessionsController extends ApplicationController
             if err
                 res.status(500).send err.message or err
             else
-                re.send girls
+                res.send girls
 
     create: (req, res) ->
         name = req.param 'name'
@@ -18,41 +19,44 @@ module.exports = class SessionsController extends ApplicationController
         unless typeof name is 'string' and name isnt ''
             res.status(400).end()
             return
-        Girls.create {name}, (err) ->
+        Girls.create {name, description}, (err, girl) ->
             if err
                 res.status(500).send err.message or err
             else
-                res.redirect req.headers.referer or '/admin'
+                res.send girl
 
 
     update: (req, res) ->
         name = req.param 'name'
+        description = req.param 'description'
         unless typeof name is 'string' and name isnt ''
             res.status(400).end()
             return
         async.waterfall [
-            (next) -> Girls.one {category_id: req.params.id}, next
-            (category, next) ->
-                unless category
-                    next new Error "Can't find category"
+            (next) -> Girls.one {girl_id: req.params.id}, next
+            (girl, next) ->
+                unless girl
+                    next new Error "Can't find girl"
                 else
-                    category.name = name
-                    category.save next
-        ], (err) ->
+                    girl.name = name
+                    if description
+                        girl.description = description
+                    girl.save next
+        ], (err, girl) ->
             if err
                 res.status(500).send err.message or err
             else
-                res.redirect req.headers.referer or '/admin'
+                res.send girl
 
 
     destroy: (req, res) ->
         async.waterfall [
-            (next) -> Girls.one {category_id: req.params.id}, next
-            (category, next) ->
-                unless category
-                    next new Error "Can't find category"
+            (next) -> Girls.one {girl_id: req.params.id}, next
+            (girl, next) ->
+                unless girl
+                    next new Error "Can't find girl"
                 else
-                    category.remove next
+                    girl.remove next
         ], (err) ->
             if err
                 res.status(500).send err.message or err
@@ -65,12 +69,12 @@ module.exports = class SessionsController extends ApplicationController
 
     destroy_file: (req, res) ->
         async.waterfall [
-            (next) -> Girls.one {category_id: req.params.id}, next
-            (category, next) ->
-                unless category
-                    next new Error "Can't find category"
+            (next) -> Girls.one {girl_id: req.params.id}, next
+            (girl, next) ->
+                unless girl
+                    next new Error "Can't find girl"
                 else
-                    category.remove next
+                    girl.remove next
         ], (err) ->
             if err
                 res.status(500).send err.message or err

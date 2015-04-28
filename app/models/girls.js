@@ -24,7 +24,7 @@ module.exports = function(db) {
       type: 'number',
       defaultValue: 0
     },
-    main_photo: {
+    profile_photo: {
       type: 'text'
     }
   }, {

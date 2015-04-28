@@ -2,15 +2,15 @@ h2
   i.fa.fa-camera
   |Add/Edit models
 .controls-button
-  button clear
-  button save
+  button(ng-click="clear()") clear
+  button(ng-click="save()") save
 .if-select-model
-  img(src="{{new_girl.main_photo}}", alt="")
+  img(src="{{current.main_photo}}", alt="")
 .form-group
   label(for='namemodels')
-  input#namemodels.form-control(type='text', placeholder='Enter name', ng-model="new_girl.name")
+  input#namemodels.form-control(type='text', placeholder='Enter name', ng-model="current.name")
 .form-group
-  textarea.form-control(rows='3', placeholder='Enter description', ng-model="new_girl.description")
+  textarea.form-control(rows='3', placeholder='Enter description', ng-model="current.description")
 p select categories
 .select-categories-for-model
   .checkbox.disabled

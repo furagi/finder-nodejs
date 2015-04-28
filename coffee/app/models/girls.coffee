@@ -7,7 +7,7 @@ module.exports = (db) ->
         name: {type: 'text', size: 100}
         description: {type: 'text', size: 1000}
         rating: {type: 'number', defaultValue: 0}
-        main_photo: {type: 'text'}
+        profile_photo: {type: 'text'}
     }, {
         methods: {
             add_photo: (callback) ->

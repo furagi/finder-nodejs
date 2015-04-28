@@ -22,6 +22,10 @@ module.exports = function(db) {
     type: {
       type: 'enum',
       values: ['photo', 'video']
+    },
+    is_main: {
+      type: 'boolean',
+      "default": false
     }
   }, {
     hooks: {
