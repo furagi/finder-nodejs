@@ -11,7 +11,7 @@ settings = {
         database: 'finder'
     }
     MEMCACHE: {
-        "servers": ["memc1.ams-prod.veribox.lan"],
+        "servers": ["memcached1.ttc-prod.avodn.lan"],
         "prefix": "finder__"
     }
     SESSION: {
