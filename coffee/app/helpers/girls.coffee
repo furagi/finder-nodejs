@@ -6,6 +6,10 @@ get_categories = (girl) ->
     _.map girl.categories, (category) ->
         "category-id-#{category.category_id}"
 
+get_main_photo = (girl) ->
+    girl.files.filter (file) ->
+        file.is_main
+
 module.exports = (req, res, next) ->
     res.locals.girls_helpers = {
         get_categories

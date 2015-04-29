@@ -37,6 +37,15 @@ module.exports = (db) ->
                     unless err
                         @categories = girl.categories
                     callback err, @
+
+            add_files: (files, callback) ->
+                async.waterfall [
+                    (next) => @setFiles files, next
+                    (next) => Girls.get @girl_id, next
+                ], (err, girl) =>
+                    unless err
+                        @files = girl.files
+                    callback err, @
         }
     }
 

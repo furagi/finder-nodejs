@@ -39,13 +39,26 @@ module.exports = SessionsController = (function(_super) {
   };
 
   SessionsController.prototype.create = function(req, res) {
-    var categories, description, name;
+    var categories, description, e, file, name, _ref, _ref1;
     name = req.param('name');
-    description = req.param('description');
-    categories = req.param('categories') || [];
     if (!(typeof name === 'string' && name !== '')) {
       res.status(400).send("Wrong name");
       return;
+    }
+    file = (_ref = req.files) != null ? _ref.file : void 0;
+    if (!(file != null ? (_ref1 = file.type) != null ? _ref1.match(/^(image|video)/) : void 0 : void 0)) {
+      res.status(400).send("Wrong file");
+      return;
+    }
+    description = req.param('description');
+    categories = req.param('categories') || [];
+    if (typeof categories === 'string') {
+      try {
+        categories = JSON.parse(categories);
+      } catch (_error) {
+        e = _error;
+        categories = [];
+      }
     }
     return async.waterfall([
       function(next) {
@@ -54,7 +67,7 @@ module.exports = SessionsController = (function(_super) {
           description: description
         }, next);
       }, function(girl, next) {
-        if (!(categories.length > 0)) {
+        if (!((categories != null ? categories.length : void 0) > 0)) {
           next(null, girl);
           return;
         }
@@ -62,6 +75,12 @@ module.exports = SessionsController = (function(_super) {
           return new Categories(category);
         });
         return girl.add_categories(categories, next);
+      }, function(girl, next) {
+        file.is_main = true;
+        file.path = file.path.replace(path.resolve('public'), '/static');
+        file.type = 'photo';
+        file = new Files(file);
+        return girl.add_files([file], next);
       }
     ], function(err, girl) {
       if (err) {

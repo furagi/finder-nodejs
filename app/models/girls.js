@@ -88,6 +88,26 @@ module.exports = function(db) {
             return callback(err, _this);
           };
         })(this));
+      },
+      add_files: function(files, callback) {
+        return async.waterfall([
+          (function(_this) {
+            return function(next) {
+              return _this.setFiles(files, next);
+            };
+          })(this), (function(_this) {
+            return function(next) {
+              return Girls.get(_this.girl_id, next);
+            };
+          })(this)
+        ], (function(_this) {
+          return function(err, girl) {
+            if (!err) {
+              _this.files = girl.files;
+            }
+            return callback(err, _this);
+          };
+        })(this));
       }
     }
   });

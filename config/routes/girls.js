@@ -9,7 +9,6 @@ GirlsController = require(path.resolve('app/controllers/girls'));
 
 multipart = multipart({
   maxFieldsSize: 1024 * 1024 * 20,
-  maxFields: 1,
   uploadDir: path.resolve('public/files')
 });
 

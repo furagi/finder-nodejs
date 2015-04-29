@@ -18,20 +18,35 @@ module.exports = class SessionsController extends ApplicationController
 
     create: (req, res) ->
         name = req.param 'name'
-        description = req.param 'description'
-        categories = req.param('categories') or []
-
         unless typeof name is 'string' and name isnt ''
             res.status(400).send "Wrong name"
             return
+        file = req.files?.file
+        unless file?.type?.match /^(image|video)/
+            res.status(400).send "Wrong file"
+            return
+        description = req.param 'description'
+        categories = req.param('categories') or []
+        if typeof categories is 'string'
+            try
+                categories = JSON.parse categories
+            catch e
+                categories = []
+
         async.waterfall [
             (next) -> Girls.create {name, description}, next
             (girl, next) ->
-                unless categories.length > 0
+                unless categories?.length > 0
                     next null, girl
                     return
                 categories = _.map categories, (category) -> new Categories category
                 girl.add_categories categories, next
+            (girl, next) ->
+                file.is_main = on
+                file.path = file.path.replace path.resolve('public'), '/static'
+                file.type = 'photo'
+                file = new Files file
+                girl.add_files [file], next
         ], (err, girl) ->
             if err
                 res.status(500).send err.message or err

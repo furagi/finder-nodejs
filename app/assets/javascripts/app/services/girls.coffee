@@ -10,6 +10,26 @@ finder_services.factory 'Girl', [
                 girl_id: '@girl_id'
             }, {
             }
+        Girl::create = (callback) ->
+            options = {
+                url: "/girls"
+                method: 'POST'
+                file: @_files[0]
+                data: {
+                    categories: @categories
+                    name: @name
+                    description: @description
+                }
+            }
+            uploader = $upload.upload options
+            .progress (event) =>
+                @progress = Math.round 100 * event.loaded / event.total
+            .success (data, status, headers, config) =>
+                # unless @files
+                #     @files = []
+                # @files.push data
+                callback data
+
         Girl::add_file = (file, callback) ->
             unless @files_left?
                 files_left = 0
