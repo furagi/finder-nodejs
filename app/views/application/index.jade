@@ -51,7 +51,7 @@ block content
           each girl in girls
             - var classes = girls_helpers.get_categories(girl)
             li(class=classes)
-              img(src='/static/images/studio6.jpg')
+              img(src=girls_helpers.get_main_photo(girl))
             if girl.files && girl.files.length > 0
               dl.ggallery
                 each file in girl.files

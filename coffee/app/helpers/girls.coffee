@@ -7,11 +7,12 @@ get_categories = (girl) ->
         "category-id-#{category.category_id}"
 
 get_main_photo = (girl) ->
-    girl.files.filter (file) ->
-        file.is_main
+    main = _.find girl.files, (file) -> file.is_main
+    return main?.path
 
 module.exports = (req, res, next) ->
     res.locals.girls_helpers = {
         get_categories
+        get_main_photo
     }
     next()

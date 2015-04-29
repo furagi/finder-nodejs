@@ -37,6 +37,7 @@ module.exports = function(db) {
   return Files.hasOne('girl', db.models.girl, {}, {
     field: 'girl_id',
     autoFetch: true,
+    autoFetchLimit: 2,
     reverse: "files"
   });
 };

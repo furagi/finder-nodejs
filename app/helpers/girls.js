@@ -14,14 +14,17 @@ get_categories = function(girl) {
 };
 
 get_main_photo = function(girl) {
-  return girl.files.filter(function(file) {
+  var main;
+  main = _.find(girl.files, function(file) {
     return file.is_main;
   });
+  return main != null ? main.path : void 0;
 };
 
 module.exports = function(req, res, next) {
   res.locals.girls_helpers = {
-    get_categories: get_categories
+    get_categories: get_categories,
+    get_main_photo: get_main_photo
   };
   return next();
 };
