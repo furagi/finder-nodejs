@@ -15,7 +15,7 @@ module.exports = class CategoriesController extends ApplicationController
     create: (req, res) ->
         name = req.param 'name'
         unless typeof name is 'string' and name isnt ''
-            res.status(400).end()
+            res.status(400). send "name can't be empty"
             return
         Categories.create {name}, (err, category) ->
             if err

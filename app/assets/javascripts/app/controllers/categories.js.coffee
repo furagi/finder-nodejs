@@ -5,6 +5,9 @@ CategoriesCtrl = ($scope, Category) ->
     $scope.new_category = new Category()
     $scope.current = null
     $scope.add = ->
+        unless typeof $scope.new_category.name is 'string' and $scope.new_category.name isnt ''
+            alert "Name can't be empty"
+            return
         $scope.new_category.$save (category) ->
             $scope.categories.push category
     $scope.edit = (category) ->

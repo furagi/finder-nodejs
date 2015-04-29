@@ -42,7 +42,7 @@ finder_services = angular.module 'finder_services', [
     ($provide, $httpProvider) ->
         $provide.factory "myHttpInterceptor", ($q, $log) ->
             responseError: (rejection) ->
-                $log.debug "error with status #{rejection.status} and data: #{rejection.data['message']}"
+                $log.debug "error with status #{rejection.status} and data: #{rejection.data.message or rejection.data}"
                 switch rejection.status
                     when 401
                         window.location = '/sessions/new'
@@ -50,6 +50,7 @@ finder_services = angular.module 'finder_services', [
                     when 0
                         $log.error "No connection, internet is down?"
                     else
+                        alert "#{rejection.data.message or rejection.data}"
                         $log.error "#{rejection.data['message']}"
 
                 # do something on error

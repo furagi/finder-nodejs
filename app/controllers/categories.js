@@ -34,7 +34,7 @@ module.exports = CategoriesController = (function(_super) {
     var name;
     name = req.param('name');
     if (!(typeof name === 'string' && name !== '')) {
-      res.status(400).end();
+      res.status(400).send("name can't be empty");
       return;
     }
     return Categories.create({
