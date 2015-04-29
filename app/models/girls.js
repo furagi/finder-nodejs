@@ -25,9 +25,6 @@ module.exports = function(db) {
     rating: {
       type: 'number',
       defaultValue: 0
-    },
-    profile_photo: {
-      type: 'text'
     }
   }, {
     methods: {

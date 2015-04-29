@@ -8,7 +8,6 @@ module.exports = (db) ->
         name: {type: 'text', size: 100}
         description: {type: 'text', size: 1000}
         rating: {type: 'number', defaultValue: 0}
-        profile_photo: {type: 'text'}
     }, {
         methods: {
             add_categories: (categories, callback) ->
