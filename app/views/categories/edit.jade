@@ -1,4 +1,4 @@
-p(contenteditable="{{category.editing || false}}" ng-class="{'edit-now': category.editing}" binder ng-model="category.name") {{category.name}}
+p.category(contenteditable="{{category.editing || false}}" ng-class="{'edit-now': category.editing}" binder ng-model="category.name") {{category.name}}
 button.edit(ng-click="edit(category)")
   i.fa.fa-pencil-square-o
     | {{category.editing ? 'update' : 'edit'}}

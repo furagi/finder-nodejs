@@ -335,13 +335,6 @@ $desktop: 1366px;
     text-align: center;
   }
 
-
-
-
-
-
-
-
   .header {
     border-bottom: 1px solid;
     margin-bottom: 2em;
@@ -620,29 +613,34 @@ $desktop: 1366px;
       @include respond-to(medium) {
         height: auto;
       }
+      p.category {
+        font-family: $admin;
+        font-size: 20px;
+        color: #fff;
+        text-transform: capitalize;
+        margin: 0;
+
+        transition: all .5s;
+
+        &.edit-now {
+          background: #fff;
+          color: #111;
+          border-radius: 15px;
+          font-size: 16px;
+          padding: .2em .5em;
+        }
+
+        &.new {
+          margin-bottom: 0.6em;
+        }
+
+      }
       ul {
         padding: 0;
         margin: 0;
         margin-top: 2em;
         li {
           margin: .5em;
-          p {
-            font-family: $admin;
-            font-size: 20px;
-            color: #fff;
-            text-transform: capitalize;
-            margin: 0;
-
-            transition: all .5s;
-
-            &.edit-now {
-              background: #fff;
-              color: #111;
-              border-radius: 15px;
-              font-size: 16px;
-              padding: .2em .5em;
-            }
-          }
           button {
 
             opacity: 0;
