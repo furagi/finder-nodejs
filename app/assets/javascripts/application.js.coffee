@@ -1,3 +1,4 @@
+#= require angular-file-upload/angular-file-upload-html5-shim
 #= require angular/angular.min
 #= require angular-file-upload/angular-file-upload
 #= require angular/angular-cookies.min

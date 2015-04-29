@@ -16,7 +16,6 @@ GirlsCtrl = ($scope, Girl, Category) ->
     $scope.edit = (girl) ->
         $scope.current = girl
         update_categories()
-        $scope.current._files = []
 
     $scope.save = ->
         unless typeof $scope.current.name is 'string' and $scope.current.name isnt ''
@@ -53,7 +52,7 @@ GirlsCtrl = ($scope, Girl, Category) ->
         girl.$delete ->
             $scope.girls.splice index, 1
     $scope.add_file = ($files) ->
-        $scope.current._files.push $files[0]
+        $scope.current.file = $files[0]
 
     $scope.clear = ->
         $scope.edit(new Girl())
