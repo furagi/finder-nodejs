@@ -23,8 +23,7 @@ p select categories
     input.file-upload-field(ng-file-select="add_file($files)" type='file', name='file-upload-field')
 .upload-img-progress(ng-if="current.uploading")
   .name-and-disable
-    span
-      {{current.file.name}}
+    span {{current.file.name}}
     button
       i.fa.fa-times(ng-click="current.abort()")
   .progress
@@ -34,6 +33,6 @@ p(ng-if="current.files.length > 0") Have photo
 ul(ng-if="current.files.length > 0")
   li(ng-repeat="file in current.files" ng-class="{main: file.is_main}")
     img(ng-src="{{file.path}}", alt="")
-    a(href="", ng-click="delete_file(file)")
+    a(href="", ng-if="!file.is_main", ng-click="delete_file(file)")
       i.fa.fa-times
     a(href="") main

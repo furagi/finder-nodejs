@@ -1,5 +1,7 @@
 _ = require 'underscore'
-fd = require 'fs'
+path = require 'path'
+fs = require 'fs'
+
 module.exports = (db) ->
     Files = db.define 'file', {
             file_id: {type: 'serial', key: on}
@@ -9,8 +11,9 @@ module.exports = (db) ->
             is_main: {type: 'boolean', default: false}
         }, {
             hooks: {
-                afterRemove: (callback) ->
-                    fs.unlink @path, callback
+                beforeRemove: (callback) ->
+                    true_path = @path.replace /^\/static/, path.resolve('public')
+                    fs.unlink true_path, callback
             }
         }
 

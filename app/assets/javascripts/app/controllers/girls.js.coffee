@@ -51,11 +51,21 @@ GirlsCtrl = ($scope, Girl, Category) ->
         index = $scope.girls.indexOf girl
         girl.$delete ->
             $scope.girls.splice index, 1
+
     $scope.add_file = ($files) ->
         $scope.current.file = $files[0]
 
+    $scope.delete_file = (file) ->
+        $scope.current.delete_file file, ->
+            unless $scope.current.girl_id?
+                return
+            _.each $scope.girls, (girl, index) ->
+                if girl.girl_id is $scope.current.girl_id
+                   $scope.girls[index] = $scope.current
+
     $scope.clear = ->
         $scope.edit(new Girl())
+
     $scope.girls = Girl.query()
     $scope.clear()
 

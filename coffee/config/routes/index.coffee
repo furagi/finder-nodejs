@@ -3,6 +3,7 @@ _ = require 'underscore'
 routes = [
     'application'
     'categories'
+    'files'
     'girls'
     'sessions'
     'slides'

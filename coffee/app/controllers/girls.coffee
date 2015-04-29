@@ -5,7 +5,7 @@ path = require 'path'
 fs = require 'fs'
 ApplicationController = require './application'
 
-module.exports = class SessionsController extends ApplicationController
+module.exports = class FilesController extends ApplicationController
     Girls = orm.models.girl
     Files = orm.models.file
     Categories = orm.models.category
@@ -142,20 +142,3 @@ module.exports = class SessionsController extends ApplicationController
                 res.status(500).send err.message or err
             else
                 res.send girl
-
-
-
-
-    destroy_file: (req, res) ->
-        async.waterfall [
-            (next) -> Girls.get req.params.id, next
-            (girl, next) ->
-                unless girl
-                    next new Error "Can't find girl"
-                else
-                    girl.remove next
-        ], (err) ->
-            if err
-                res.status(500).send err.message or err
-            else
-                res.redirect req.headers.referer or '/admin'

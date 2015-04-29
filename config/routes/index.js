@@ -3,7 +3,7 @@ var routes, _;
 
 _ = require('underscore');
 
-routes = ['application', 'categories', 'girls', 'sessions', 'slides'];
+routes = ['application', 'categories', 'files', 'girls', 'sessions', 'slides'];
 
 module.exports = function(app) {
   return _.each(routes, function(route) {

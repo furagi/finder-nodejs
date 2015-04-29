@@ -5,7 +5,8 @@ finder_services = angular.module 'finder_services'
 finder_services.factory 'Girl', [
     '$resource'
     '$upload'
-    ($resource, $upload) ->
+    'FileResource'
+    ($resource, $upload, FileResource) ->
         Girl = $resource '/girls/:girl_id', {
                 girl_id: '@girl_id'
             }, {
@@ -55,6 +56,15 @@ finder_services.factory 'Girl', [
             result = _.find @categories, (_category) ->
                 category.category_id is _category.category_id
             return result?
+
+        Girl::delete_file = (file, callback) ->
+            file = new FileResource file
+            file.$delete =>
+                index = null
+                @files.forEach (_file, _index) ->
+                    if _file.file_id is file.file_id
+                        index = _index
+                @files.splice index, 1
 
         Girl
 ]
