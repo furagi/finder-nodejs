@@ -1,7 +1,8 @@
 orm = require 'node-orm'
-
+async = require 'async'
 module.exports = class ApplicationController
     Categories = orm.models.category
+    Girls = orm.models.girl
     check_is_authenticated: (req, res, next) ->
         unless req.session.user
             req.session.wanted_url = req.url
@@ -17,12 +18,18 @@ module.exports = class ApplicationController
                 next()
 
     index: (req, res) ->
-        res.render 'index'
+        res.locals.title = "MDLS'teem"
+        async.parallel {
+            categories: Categories.all
+            girls: Girls.all
+        }, (err, results) ->
+            if err
+                res.status(500).send err.messsage or err
+            else
+                res.locals.girls = results.girls or []
+                res.locals.categories = results.categories or []
+                res.render 'application/index'
 
     admin: (req, res) ->
-        Categories.find {}, (err, categories) ->
-            if err
-                res.status(500).send err.message or err
-            else
-                res.locals.categories = categories
-                res.render 'admin'
+        res.locals.title = 'ADMIN'
+        res.render 'application/admin'

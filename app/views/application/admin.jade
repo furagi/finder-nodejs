@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 block content
   .container-fluid.admin(ng-app="admin_app" ng-controller="AdminCtrl")
     .col-md-12
@@ -91,18 +91,17 @@ block content
           ng-include(src="'categories'", ng-controller="CategoriesCtrl")
 
     script#categories(type="text/ng-template")
-      include categories/index
+      include ../categories/index
     script#category(type="text/ng-template")
-      include categories/edit
+      include ../categories/edit
     script#category_new(type="text/ng-template")
-      include categories/new
+      include ../categories/new
     script#girls(type="text/ng-template")
-        include girls/index
+        include ../girls/index
     script#girl(type="text/ng-template")
-        include girls/edit
+        include ../girls/edit
     script#girl_new(type="text/ng-template")
-        include girls/new
+        include ../girls/new
+
 block scripts
-
-
   != js('application.js')

@@ -12,6 +12,7 @@ module.exports = class SessionsController
                 url = root
             res.redirect url
         else
+            res.locals.title = "MDLS'teem login"
             res.render 'sessions/new'
 
     create: (req, res) ->

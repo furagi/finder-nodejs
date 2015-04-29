@@ -21,6 +21,7 @@ module.exports = SessionsController = (function() {
       }
       return res.redirect(url);
     } else {
+      res.locals.title = "MDLS'teem login";
       return res.render('sessions/new');
     }
   };
