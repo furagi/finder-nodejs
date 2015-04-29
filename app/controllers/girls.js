@@ -46,7 +46,7 @@ module.exports = SessionsController = (function(_super) {
       return;
     }
     file = (_ref = req.files) != null ? _ref.file : void 0;
-    if (!(file != null ? (_ref1 = file.type) != null ? _ref1.match(/^(image|video)/) : void 0 : void 0)) {
+    if (!(file != null ? (_ref1 = file.type) != null ? typeof _ref1.match === "function" ? _ref1.match(/^(image|video)/) : void 0 : void 0 : void 0)) {
       res.status(400).send("Wrong file");
       return;
     }
@@ -92,12 +92,25 @@ module.exports = SessionsController = (function(_super) {
   };
 
   SessionsController.prototype.update = function(req, res) {
-    var categories, description, name;
+    var categories, description, e, file, name, _ref, _ref1;
     name = req.param('name');
-    description = req.param('description');
-    categories = req.param('categories');
     if (!(typeof name === 'string' && name !== '')) {
       res.status(400).send("Wrong name");
+      return;
+    }
+    description = req.param('description');
+    categories = req.param('categories');
+    if (typeof categories === 'string') {
+      try {
+        categories = JSON.parse(categories);
+      } catch (_error) {
+        e = _error;
+        categories = [];
+      }
+    }
+    file = (_ref = req.files) != null ? _ref.file : void 0;
+    if (file && !((_ref1 = file.type) != null ? typeof _ref1.match === "function" ? _ref1.match(/^(image|video)/) : void 0 : void 0)) {
+      res.status(400).send("Wrong file");
       return;
     }
     return async.waterfall([
@@ -122,6 +135,15 @@ module.exports = SessionsController = (function(_super) {
           return new Categories(category);
         });
         return girl.update_categories(categories, next);
+      }, function(girl, next) {
+        if (!file) {
+          next(null, girl);
+          return;
+        }
+        file.path = file.path.replace(path.resolve('public'), '/static');
+        file.type = 'photo';
+        file = new Files(file);
+        return girl.add_files([file], next);
       }
     ], function(err, girl) {
       if (err) {

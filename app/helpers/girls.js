@@ -9,7 +9,7 @@ get_categories = function(girl) {
     return [];
   }
   return _.map(girl.categories, function(category) {
-    return "category-id-" + category.category_id;
+    return "category-" + category.category_id;
   });
 };
 

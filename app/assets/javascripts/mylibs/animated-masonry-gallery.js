@@ -1,8 +1,8 @@
 $(window).load(function () {
 
-  
-  
-  
+
+
+
   var size = 1;
   var button = 1;
   var button_class = "gallery-header-center-right-links-current";
@@ -11,7 +11,7 @@ $(window).load(function () {
   var $container = $('#gallery-content-center');
 
   $container.isotope({
-    itemSelector: 'li'
+    itemSelector: 'li.girl'
   });
 
 
@@ -31,29 +31,21 @@ $(window).load(function () {
     }
   }
 
-  
 
 
+  $("#gallery-header .gallery-links").click(function() {
+    var category_id = $(this).data('filter');
+    var filter = '.category-' + category_id;
+    $container.isotope({
+      filter: filter
+    });
+  });
 
   $("#filter-all").click(function () {
     $container.isotope({
       filter: '.all'
     });
     button = 1;
-    check_button();
-  });
-  $("#filter-studio").click(function () {
-    $container.isotope({
-      filter: '.studio'
-    });
-    button = 2;
-    check_button();
-  });
-  $("#filter-landscape").click(function () {
-    $container.isotope({
-      filter: '.landscape'
-    });
-    button = 3;
     check_button();
   });
   $("#gallery-header-center-left-icon").click(function () {

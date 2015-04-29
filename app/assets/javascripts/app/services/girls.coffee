@@ -10,7 +10,7 @@ finder_services.factory 'Girl', [
                 girl_id: '@girl_id'
             }, {
             }
-        Girl::create = (callback) ->
+        Girl::save = (callback) ->
             options = {
                 url: "/girls"
                 method: 'POST'
@@ -21,35 +21,15 @@ finder_services.factory 'Girl', [
                     description: @description
                 }
             }
+            if @girl_id?
+                options.url += "/#{@girl_id}"
             uploader = $upload.upload options
             .progress (event) =>
                 @progress = Math.round 100 * event.loaded / event.total
-            .success (data, status, headers, config) =>
-                # unless @files
-                #     @files = []
-                # @files.push data
-                callback data
+            .success (girl, status, headers, config) =>
+                girl = new Girl girl
+                callback girl
 
-        Girl::add_file = (file, callback) ->
-            unless @files_left?
-                files_left = 0
-            @files_left++
-            uploader = $upload.upload {
-                url: "/girls/#{@girl_id}/files"
-                method: 'POST'
-                file: file
-            }
-            .progress (event) =>
-                @progress = Math.round 100 * event.loaded / event.total
-            .error (err) ->
-                callback err
-            .success (data, status, headers, config) =>
-                unless @files
-                    @files = []
-                @files.push data
-                callback()
-            .finally =>
-                @files_left--
         Girl::main_photo = ->
             main = _.find @files, (file) ->
                 file.type is 'photo' and file.is_main

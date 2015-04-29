@@ -44,13 +44,14 @@ block content
           h3 categories
 
           #gallery-header-center-right
+            #filter-all.gallery-links All
             each category in categories
-              .gallery-links(id="filter-category-id-#{category.category_id}")= category.name
+              .gallery-links(data-filter=category.category_id)= category.name
       .col-md-10.gallery-content#gallery-content
         ul.content-gird#gallery-content-center
           each girl in girls
             - var classes = girls_helpers.get_categories(girl)
-            li(class=classes)
+            li.girl.all(class=classes)
               img(src=girls_helpers.get_main_photo(girl))
             if girl.files && girl.files.length > 0
               dl.ggallery

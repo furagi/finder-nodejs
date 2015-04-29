@@ -22,7 +22,7 @@ module.exports = class SessionsController extends ApplicationController
             res.status(400).send "Wrong name"
             return
         file = req.files?.file
-        unless file?.type?.match /^(image|video)/
+        unless file?.type?.match? /^(image|video)/
             res.status(400).send "Wrong file"
             return
         description = req.param 'description'
@@ -56,10 +56,19 @@ module.exports = class SessionsController extends ApplicationController
 
     update: (req, res) ->
         name = req.param 'name'
-        description = req.param 'description'
-        categories = req.param 'categories'
         unless typeof name is 'string' and name isnt ''
             res.status(400).send "Wrong name"
+            return
+        description = req.param 'description'
+        categories = req.param 'categories'
+        if typeof categories is 'string'
+            try
+                categories = JSON.parse categories
+            catch e
+                categories = []
+        file = req.files?.file
+        if file and not file.type?.match? /^(image|video)/
+            res.status(400).send "Wrong file"
             return
         async.waterfall [
             (next) -> Girls.get req.params.id, next
@@ -77,6 +86,14 @@ module.exports = class SessionsController extends ApplicationController
                     return
                 categories = _.map categories, (category) -> new Categories category
                 girl.update_categories categories, next
+            (girl, next) ->
+                unless file
+                    next null, girl
+                    return
+                file.path = file.path.replace path.resolve('public'), '/static'
+                file.type = 'photo'
+                file = new Files file
+                girl.add_files [file], next
         ], (err, girl) ->
             if err
                 res.status(500).send err.message or err

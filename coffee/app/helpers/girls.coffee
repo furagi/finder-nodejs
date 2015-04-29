@@ -4,7 +4,7 @@ get_categories = (girl) ->
     unless girl.categories?.length
         return []
     _.map girl.categories, (category) ->
-        "category-id-#{category.category_id}"
+        "category-#{category.category_id}"
 
 get_main_photo = (girl) ->
     main = _.find girl.files, (file) -> file.is_main

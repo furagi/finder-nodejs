@@ -17,6 +17,7 @@ GirlsCtrl = ($scope, Girl, Category) ->
         $scope.current = girl
         update_categories()
         $scope.current._files = []
+
     $scope.save = ->
         unless typeof $scope.current.name is 'string' and $scope.current.name isnt ''
             alert "Fill name first"
@@ -32,20 +33,17 @@ GirlsCtrl = ($scope, Girl, Category) ->
             else if has
                 $scope.current.categories.push category_id
         index = -1
-        callback = (girl) ->
+        if $scope.current.girl_id?
+            _.each $scope.girls, (girl, _index) ->
+                if girl.girl_id is $scope.current.girl_id
+                    index = _index
+        $scope.current.save (girl) ->
             if index is -1
                 $scope.girls.push girl
             else
                 $scope.girls.splice index, 1, girl
             $scope.current = girl
             update_categories()
-        if $scope.current.girl_id?
-            _.each $scope.girls, (girl, _index) ->
-                if girl.girl_id is $scope.current.girl_id
-                    index = _index
-            $scope.current.$save callback
-        else
-            $scope.current.create callback
 
 
     $scope.destroy = (girl) ->
@@ -56,17 +54,7 @@ GirlsCtrl = ($scope, Girl, Category) ->
             $scope.girls.splice index, 1
     $scope.add_file = ($files) ->
         $scope.current._files.push $files[0]
-        # $scope.save ->
-        #     $scope.current.add_file $files[0], (err) ->
-        #         if err?
-        #             alert err.data or err.statusText or err
-        #             return
-        #         index = -1
-        #         _.each $scope.girls, (girl, _index) ->
-        #             if girl.girl_id is $scope.current.girl_id
-        #                 index = _index
-        #         if index > -1
-        #             $scope.girls[index] = $scope.current
+
     $scope.clear = ->
         $scope.edit(new Girl())
     $scope.girls = Girl.query()
