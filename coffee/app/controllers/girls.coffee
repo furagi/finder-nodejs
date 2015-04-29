@@ -2,6 +2,7 @@ orm = require 'node-orm'
 async = require 'async'
 _ = require 'underscore'
 path = require 'path'
+fs = require 'fs'
 ApplicationController = require './application'
 
 module.exports = class SessionsController extends ApplicationController
@@ -24,6 +25,9 @@ module.exports = class SessionsController extends ApplicationController
         file = req.files?.file
         unless file?.type?.match? /^(image|video)/
             res.status(400).send "Wrong file"
+            fs.unlink file.path, (err) ->
+                if err
+                    logger.warn "Error happened while tried to delete file", file
             return
         description = req.param 'description'
         categories = req.param('categories') or []
@@ -69,6 +73,9 @@ module.exports = class SessionsController extends ApplicationController
         file = req.files?.file
         if file and not file.type?.match? /^(image|video)/
             res.status(400).send "Wrong file"
+            fs.unlink file.path, (err) ->
+                if err
+                    logger.warn "Error happened while tried to delete file", file
             return
         async.waterfall [
             (next) -> Girls.get req.params.id, next
