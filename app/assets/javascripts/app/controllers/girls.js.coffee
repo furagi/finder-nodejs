@@ -29,7 +29,7 @@ GirlsCtrl = ($scope, Girl, Category) ->
         $scope.current.categories = []
         categories = $scope.categories.map (category) -> category.category_id
         _.each $scope.current._categories, (has, category_id) ->
-            if categories.indexOf(category_id) is -1
+            if categories.indexOf(+category_id) is -1
                 delete $scope.current._categories[category_id]
             else if has
                 $scope.current.categories.push category_id

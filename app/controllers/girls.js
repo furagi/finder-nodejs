@@ -96,7 +96,7 @@ module.exports = SessionsController = (function(_super) {
         }
       }, function(girl, next) {
         if (!((categories != null ? categories.length : void 0) > 0)) {
-          next();
+          next(null, girl);
           return;
         }
         categories = _.map(categories, function(category) {

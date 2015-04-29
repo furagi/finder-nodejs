@@ -58,7 +58,7 @@ module.exports = class SessionsController extends ApplicationController
                     girl.save next
             (girl, next) ->
                 unless categories?.length > 0
-                    next()
+                    next null, girl
                     return
                 categories = _.map categories, (category) -> new Categories category
                 girl.update_categories categories, next
