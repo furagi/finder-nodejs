@@ -7,7 +7,7 @@ orm = require('node-orm');
 async = require('async');
 
 module.exports = ApplicationController = (function() {
-  var Categories, Girls;
+  var Categories, Files, Girls;
 
   function ApplicationController() {
     this.allow_only_admin = __bind(this.allow_only_admin, this);
@@ -16,6 +16,8 @@ module.exports = ApplicationController = (function() {
   Categories = orm.models.category;
 
   Girls = orm.models.girl;
+
+  Files = orm.models.file;
 
   ApplicationController.prototype.check_is_authenticated = function(req, res, next) {
     if (!req.session.user) {
@@ -40,13 +42,15 @@ module.exports = ApplicationController = (function() {
     res.locals.title = settings.Finder.title;
     return async.parallel({
       categories: Categories.all,
-      girls: Girls.all
+      girls: Girls.all,
+      slides: Files.find({}).where("girl_id IS NULL").all
     }, function(err, results) {
       if (err) {
         return res.status(500).send(err.messsage || err);
       } else {
         res.locals.girls = results.girls || [];
         res.locals.categories = results.categories || [];
+        res.locals.slides = results.slides || [];
         res.locals.socials = settings.Finder.socials;
         res.locals.description = settings.Finder.description;
         return res.render('application/index');

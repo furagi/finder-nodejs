@@ -21,15 +21,9 @@ block content
       .col-md-12.hero-text-box
         .hero-text
         .slider
-          div
-            img(src="/static/images/h1.jpg", alt="")
-          div
-            img(src="/static/images/h2.jpg", alt="")
-          div
-            img(src="/static/images/h3.jpg", alt="")
-          div
-            img(src="/static/images/h4.jpg", alt="")
-
+          each slide in slides
+            div
+              img(src=slide.path, alt="")
   .container.title-and-text
     .row
       .col-md-offset-2.col-md-3

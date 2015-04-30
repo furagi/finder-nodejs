@@ -33,23 +33,23 @@ block content
             button(ng-click="save_hero()") save
           p add slide
           ul
-            li(ng-repeat="slide in slides")
-              img(ng-src="slide", alt="")
+            li(ng-repeat="slide in slides", ng-if="slide.file_id !== undefined && slide.file_id !== null")
+              img(ng-src="{{slide.path}}", alt="")
               a(href="")
                 i.fa.fa-times(ng-click="delete_slide(slide)")
           .clear-fix
           .form-group
             .file-upload-wrapper(data-text='Select your file!')
-              input.file-upload-field(name='file-upload-field', type='file', value='')
-          .upload-img-progress
+              input.file-upload-field(name='file-upload-field', type='file', ng-file-select="add_slides($files)", multiple)
+          .upload-img-progress(ng-repeat="uploading_slide in uploading_slides", ng-if="!uploading_slide.finished")
             .name-and-disable
               span
-                |Name file
+                | {{uploading_slide.file.name}}
               button
-                i.fa.fa-times
+                i.fa.fa-times(ng-click="abort_slide_uploading(uploading_slide)")
 
-            .progress
-              .progress-bar(role='progressbar', aria-valuenow='60', aria-valuemin='0', aria-valuemax='100', style='width: 60%;')
+            .progress(ng-if="uploading_slide.uploading")
+              .progress-bar(role='progressbar', aria-valuenow="{{uploading_slide.progress}}", aria-valuemin='0', aria-valuemax='100', style='width: {{uploading_slide.progress}}%;')
                 span.sr-only
           p edit text in hero
           .text-box
