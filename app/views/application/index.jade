@@ -51,6 +51,8 @@ block content
               if girl.files && girl.files.length > 0
                 dl.ggallery
                   dt(data-src=main_photo, data-sub-html='<h3>#{girl.name}</h3><p>#{girl.description}</p>')
+                    img(src=main_photo, alt="")
                   each file in girl.files
                     if !file.is_main
                       dt(data-src=file.path)
+                        img(src=file.path, alt="")
