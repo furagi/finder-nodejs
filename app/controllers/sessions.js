@@ -47,7 +47,7 @@ module.exports = SessionsController = (function() {
           message: err.message || err
         });
       } else {
-        root = user.is_admin ? '/admin' : '/';
+        root = user.is_admin ? '/application/admin' : '/';
         url = req.session.wanted_url || root;
         req.session.user = user;
         if (url === '/favicon.ico') {

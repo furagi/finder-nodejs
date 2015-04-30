@@ -26,7 +26,7 @@ module.exports = class SessionsController
                 logger.warn err
                 res.render 'sessions/new', {message: err.message or err}
             else
-                root = if user.is_admin then '/admin' else '/'
+                root = if user.is_admin then '/application/admin' else '/'
                 url = req.session.wanted_url or root
                 req.session.user = user
                 # to fix strange bug with favicon.ico
