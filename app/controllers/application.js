@@ -37,7 +37,7 @@ module.exports = ApplicationController = (function() {
   };
 
   ApplicationController.prototype.index = function(req, res) {
-    res.locals.title = "MDLS'teem";
+    res.locals.title = settings.Finder.title;
     return async.parallel({
       categories: Categories.all,
       girls: Girls.all
@@ -47,6 +47,8 @@ module.exports = ApplicationController = (function() {
       } else {
         res.locals.girls = results.girls || [];
         res.locals.categories = results.categories || [];
+        res.locals.socials = settings.Finder.socials;
+        res.locals.description = settings.Finder.description;
         return res.render('application/index');
       }
     });
@@ -54,7 +56,29 @@ module.exports = ApplicationController = (function() {
 
   ApplicationController.prototype.admin = function(req, res) {
     res.locals.title = 'ADMIN';
+    res.locals.socials = settings.Finder.socials;
     return res.render('application/admin');
+  };
+
+  ApplicationController.prototype.show = function(req, res) {
+    return res.send({
+      id: req.params.id,
+      value: settings.Finder[req.params.id]
+    });
+  };
+
+  ApplicationController.prototype.update = function(req, res) {
+    settings.Finder[req.params.id] = req.param('value');
+    return settings.Finder.save(function(err) {
+      if (err) {
+        return res.status(500).send(err.messsage || err);
+      } else {
+        return res.send({
+          id: req.params.id,
+          value: settings.Finder[req.params.id]
+        });
+      }
+    });
   };
 
   return ApplicationController;

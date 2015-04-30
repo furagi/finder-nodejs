@@ -1,0 +1,9 @@
+{
+    "default": {
+        "protocol": "mysql",
+        "query": {
+            "pool": true
+        }
+    }
+
+}

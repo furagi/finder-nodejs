@@ -10,7 +10,7 @@ module.exports = (db) ->
             methods: {
                 login: (callback) ->
                     sha256 = crypto.createHash 'sha256'
-                    sha256.update @password + settings.USER.salt
+                    sha256.update @password + settings.user.salt
                     @password = sha256.digest 'hex'
                     Users.one {email: @email, password: @password}, (err, user) ->
                         if not err and not user

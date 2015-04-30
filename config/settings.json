@@ -1,0 +1,15 @@
+{
+    "default":  {
+        "port": 9201,
+        "host": "localhost",
+        "project_name": "finder",
+        "session": {
+            "cookie_name": "finder-sid",
+            "cookie_secret": "shakabalaha"
+        },
+        "user": {
+            "salt": "white death"
+        },
+        "mincer_cache": "tmp/cache"
+    }
+}

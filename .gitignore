@@ -1,5 +1,4 @@
 public/files
 node_modules
-local.coffee
-local.js
-kibana/config.js
+local.finder.json
+config.secure.json

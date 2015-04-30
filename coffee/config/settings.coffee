@@ -1,32 +1,14 @@
-settings = {
-    PORT: 9201
-    HOST: 'localhost'
-    PROJECT_NAME: 'finder'
-    DATABASE: {
-        protocol: 'mysql',
-        query: {pool: on},
-        host: 'sanddb.gtflix.com',
-        user: 'develop',
-        password: 'develop@box',
-        database: 'finder'
-    }
-    MEMCACHE: {
-        "servers": ["memcached1.ttc-prod.avodn.lan"],
-        "prefix": "finder__"
-    }
-    SESSION: {
-        cookie_name: "finder-sid",
-        cookie_secret: "shakabalaha"
-    }
-    USER: {
-        salt: 'white death'
-    }
-}
+_ = require 'underscore'
+path = require 'path'
+env = process.env.NODE_ENV
+secrets = require './config.secure.json'
+database = require './database.json'
+_settings = require './settings.json'
+[_settings, database] = [_settings, database].map (conf) -> conf[env] or conf.default
 
-try
-    local = require('./local');
-    require('underscore').extend settings, local
-catch e
-    console.log("Can't load local settings");
-
-global.settings = settings
+global.settings = _settings
+settings.database = _.extend database, secrets[database.protocol]
+settings.memcached = secrets.memcached
+_.each _settings, (value, key) ->
+    settings.__defineGetter__ key, -> return value
+    settings.__defineSetter__ key, -> throw new Error "Changing settings.#{key} is deprecated"

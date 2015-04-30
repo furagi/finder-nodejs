@@ -26,7 +26,7 @@ models = [
 module.exports = function(callback) {
   logger.debug('Connecting to DB');
   orm.settings.set('instance.cache', false);
-  return orm.connect(settings.DATABASE, function(err, db) {
+  return orm.connect(settings.database, function(err, db) {
     if (err != null) {
       throw new Error("Can't connect to DB: " + err);
       return;

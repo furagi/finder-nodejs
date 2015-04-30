@@ -10,6 +10,9 @@ ApplicationController = require(path.resolve('app/controllers/application'));
 module.exports = function(app) {
   var application;
   application = new ApplicationController();
-  app.get('/admin', application.allow_only_admin, application.admin);
+  app.use('/application/:id', application.allow_only_admin);
+  app.get('/application/admin', application.admin);
+  app.get('/application/:id', application.show);
+  app.post('/application/:id', application.update);
   return app.get('/', girls_helpers, application.index);
 };

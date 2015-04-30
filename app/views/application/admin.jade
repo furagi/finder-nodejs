@@ -4,65 +4,39 @@ block content
     .col-md-12
       .row.header
         .col-md-2
-          h1 MDLS teem
+          h1 {{title.value}}
           span.icon-glass admin panel
         .col-md-9.social
           span edit social
           ul
-            li
+            li(ng-repeat="social in socials.value")
               p
-                i.fa.fa-facebook
-                |facebook
+                i.fa(class="fa-{{social.name}}")
+                | {{social.name}}
               .form-group
-                input(type='text', value='facebook.com/example')
+                input(type='text', ng-model="social.url")
             li
-              p
-                i.fa.fa-twitter
-                |twitter
-              .form-group
-                input(type='text', value='twitter.com/example')
-
-            li
-              p
-                i.fa.fa-instagram
-                |instagram
-              .form-group
-                input(type='text', value='instagram.com/example')
-            li
-              button
+              button(ng-click="socials.$save()")
                 |save
+
         .col-md-1
           button.sign-out(data-form, data-form_submit, data-action='/sessions/logout', data-method='delete')
             i.fa.fa-sign-out
             |sign out
 
       .row.controls
-
-
         .col-md-3.edit-hero
           h2
             i.fa.fa-university
             |Edit hero
           .controls-button
-            button save
+            button(ng-click="save_hero()") save
           p add slide
           ul
-            li
-              img(src="/static/img/h1.jpg", alt="")
+            li(ng-repeat="slide in slides")
+              img(ng-src="slide", alt="")
               a(href="")
-                i.fa.fa-times
-            li
-              img(src="/static/img/h2.jpg", alt="")
-              a(href="")
-                i.fa.fa-times
-            li
-              img(src="/static/img/h3.jpg", alt="")
-              a(href="")
-                i.fa.fa-times
-            li
-              img(src="/static/img/h4.jpg", alt="")
-              a(href="")
-                i.fa.fa-times
+                i.fa.fa-times(ng-click="delete_slide(slide)")
           .clear-fix
           .form-group
             .file-upload-wrapper(data-text='Select your file!')
@@ -80,10 +54,10 @@ block content
           p edit text in hero
           .text-box
             span main title
-            h4(contenteditable='true') MDLS TEEM
+            h4(contenteditable='true', binder, ng-model="title.value") {{title.value}}
           .text-box
             span main description
-            h5(contenteditable='true') Keytar Vice Thundercats, actually disrupt squid gluten-free YOLO you probably haven't heard of them normcore meh. Cold-pressed mixtape Brooklyn, whatever occupy chambray quinoa flexitarian before they sold out flannel meh Carles wayfarers. +1 fanny pack Carles,
+            h5(contenteditable='true', binder, ng-model="description.value") {{description.value}}
 
         .col-md-7
           ng-include(src="'girls'", ng-controller="GirlsCtrl")

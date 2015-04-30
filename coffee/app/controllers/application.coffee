@@ -18,7 +18,7 @@ module.exports = class ApplicationController
                 next()
 
     index: (req, res) ->
-        res.locals.title = "MDLS'teem"
+        res.locals.title = settings.Finder.title
         async.parallel {
             categories: Categories.all
             girls: Girls.all
@@ -28,8 +28,22 @@ module.exports = class ApplicationController
             else
                 res.locals.girls = results.girls or []
                 res.locals.categories = results.categories or []
+                res.locals.socials = settings.Finder.socials
+                res.locals.description = settings.Finder.description
                 res.render 'application/index'
 
     admin: (req, res) ->
         res.locals.title = 'ADMIN'
+        res.locals.socials = settings.Finder.socials
         res.render 'application/admin'
+
+    show: (req, res) ->
+        res.send {id: req.params.id, value: settings.Finder[req.params.id]}
+
+    update: (req, res) ->
+        settings.Finder[req.params.id] = req.param 'value'
+        settings.Finder.save (err) ->
+            if err
+                res.status(500).send err.messsage or err
+            else
+                res.send {id: req.params.id, value: settings.Finder[req.params.id]}

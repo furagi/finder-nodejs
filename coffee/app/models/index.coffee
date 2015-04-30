@@ -13,7 +13,7 @@ models = [
 module.exports = (callback) ->
 	logger.debug 'Connecting to DB'
 	orm.settings.set 'instance.cache', off
-	orm.connect settings.DATABASE, (err, db) ->
+	orm.connect settings.database, (err, db) ->
 		if err?
 			throw new Error "Can't connect to DB: #{err}"
 			return

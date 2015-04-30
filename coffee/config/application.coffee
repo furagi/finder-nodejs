@@ -15,6 +15,7 @@ error_handler = require path.resolve 'app/helpers/error_handler'
 ajax_redirect = require path.resolve 'app/helpers/ajax_redirect'
 routes = require path.resolve 'config/routes/'
 models = require path.resolve 'app/models/'
+Finder = require path.resolve 'app/models/finder'
 
 class Application
 
@@ -29,10 +30,10 @@ class Application
         @config_mincer app
         app.use '/static', express.static(path.resolve 'public')
         app.use cookie_parser()
-        session_store = new MemcachedStore settings.MEMCACHE
+        session_store = new MemcachedStore settings.memcached
         app.use session({
-            key    : settings.SESSION.cookie_name
-            secret : settings.SESSION.cookie_secret
+            key    : settings.session.cookie_name
+            secret : settings.session.cookie_secret
             store  : session_store
             cookie : {
                 path: '/',
@@ -48,13 +49,14 @@ class Application
             else
                 routes app
                 app.use error_handler
+                settings.Finder = Finder
                 callback app
 
     config_logger: ->
         log_level = process.argv[2];
         if not log_level
             log_level = 'info'
-        _logger = new GlobalLogger log_level, settings.PROJECT_NAME
+        _logger = new GlobalLogger log_level, settings.project_name
         Object.defineProperty global, 'logger', {
             get: -> _logger
         }
@@ -80,7 +82,7 @@ class Application
         assets_config.compile = on
         if process.env.NODE_ENV is 'production'
             assets_config.build = on
-            assets_config.buildDir = path.resolve 'tmp/cache'
+            assets_config.buildDir = path.resolve settings.mincer_cache
             assets_config.compress = on
             assets_config.fingerprinting = on
         app.use assets(assets_config)

@@ -27,7 +27,7 @@ module.exports = function(db) {
       login: function(callback) {
         var sha256;
         sha256 = crypto.createHash('sha256');
-        sha256.update(this.password + settings.USER.salt);
+        sha256.update(this.password + settings.user.salt);
         this.password = sha256.digest('hex');
         return Users.one({
           email: this.email,
