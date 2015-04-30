@@ -1,2 +1,4 @@
 img(ng-if="girl.files.length > 0", ng-src="{{girl.main_photo()}}", alt="")
 h3 {{girl.name}}
+a(href="")
+  i.fa.fa-times(ng-click="destroy(girl)")
