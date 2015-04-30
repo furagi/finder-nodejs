@@ -138,13 +138,6 @@ module.exports = function(db) {
         funcs.push(new_main.save);
         return async.series(funcs, (function(_this) {
           return function(err, files) {
-            files.sort(function(a, b) {
-              if (a.is_main) {
-                return true;
-              } else {
-                return a.file_id > b.file_id;
-              }
-            });
             return callback(err, _this);
           };
         })(this));

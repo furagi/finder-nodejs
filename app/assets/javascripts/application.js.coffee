@@ -54,11 +54,8 @@ finder_services = angular.module 'finder_services', [
                         alert "#{rejection.data.message or rejection.data}"
                         $log.error "#{rejection.data['message']}"
 
-                # do something on error
                 $q.reject rejection
         $httpProvider.interceptors.push 'myHttpInterceptor'
 ]
-
-#finder_filters = angular.module 'finder_filters', []
 
 finder_controllers = angular.module 'finder_controllers', []
