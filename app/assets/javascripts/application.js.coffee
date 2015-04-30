@@ -1,9 +1,9 @@
 #= require angular-file-upload/angular-file-upload-html5-shim
-#= require angular/angular.min
+#= require angular/angular
 #= require angular-file-upload/angular-file-upload
-#= require angular/angular-cookies.min
-#= require angular/angular-resource.min
-#= require angular/angular-route.min
+#= require angular/angular-cookies
+#= require angular/angular-resource
+#= require angular/angular-route
 #= require_self
 #= require_tree ./app/controllers
 #= require_tree ./app/services
