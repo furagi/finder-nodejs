@@ -1,0 +1,12 @@
+{
+    "mysql": {
+        "host": "sanddb.gtflix.com",
+        "user": "develop",
+        "password": "develop@box",
+        "database": "finder"
+    },
+    "memcached": {
+        "servers": ["memcached1.ttc-prod.avodn.lan"],
+        "prefix": "finder"
+    }
+}
