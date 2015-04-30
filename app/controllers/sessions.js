@@ -14,7 +14,7 @@ module.exports = SessionsController = (function() {
     var root, url, user;
     user = req.session.user;
     if (user) {
-      root = user.is_admin ? '/admin' : '/';
+      root = user.is_admin ? '/aplication/admin' : '/';
       url = req.session.wanted_url;
       if (url === '/sessions/new' || !url) {
         url = root;

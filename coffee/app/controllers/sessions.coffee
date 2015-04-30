@@ -6,7 +6,7 @@ module.exports = class SessionsController
     create_show: (req, res) ->
         user = req.session.user
         if user
-            root = if user.is_admin then '/admin' else '/'
+            root = if user.is_admin then '/aplication/admin' else '/'
             url = req.session.wanted_url
             if url is '/sessions/new' or not url
                 url = root
