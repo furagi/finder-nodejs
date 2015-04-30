@@ -108,6 +108,46 @@ module.exports = function(db) {
             return callback(err, _this);
           };
         })(this));
+      },
+      change_main_photo: function(file, callback) {
+        var funcs, new_main, old_main;
+        new_main = _.find(this.files, function(_file) {
+          return file.file_id === _file.file_id;
+        });
+        if (!new_main) {
+          callback(new Error("Girl " + this.girl_id + " hasn't file " + file.file_id));
+          return;
+        }
+        if (new_main.type !== 'photo') {
+          callback(new Error("File " + file.file_id + " isn't photo"));
+          return;
+        }
+        if (new_main.is_main) {
+          callback(new Error("File " + file.file_id + " already is main"));
+          return;
+        }
+        old_main = _.find(this.files, function(_file) {
+          return _file.is_main;
+        });
+        funcs = [];
+        if (old_main) {
+          old_main.is_main = false;
+          funcs.push(old_main.save);
+        }
+        new_main.is_main = true;
+        funcs.push(new_main.save);
+        return async.series(funcs, (function(_this) {
+          return function(err, files) {
+            files.sort(function(a, b) {
+              if (a.is_main) {
+                return true;
+              } else {
+                return a.file_id > b.file_id;
+              }
+            });
+            return callback(err, _this);
+          };
+        })(this));
       }
     }
   });

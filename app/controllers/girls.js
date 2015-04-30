@@ -216,6 +216,34 @@ module.exports = FilesController = (function(_super) {
     });
   };
 
+  FilesController.prototype.change_main_photo = function(req, res) {
+    var file, file_id;
+    file_id = req.param('file_id');
+    if (typeof file_id === 'string') {
+      file_id = +file_id;
+    }
+    if (isNaN(file_id)) {
+      res.status(400).send('Wrong file_id');
+      return;
+    }
+    file = new Files({
+      file_id: file_id
+    });
+    return async.waterfall([
+      function(next) {
+        return Girls.get(req.params.id, next);
+      }, function(girl, next) {
+        return girl.change_main_photo(file, next);
+      }
+    ], function(err, girl) {
+      if (err) {
+        return res.status(500).send(err.message || err);
+      } else {
+        return res.send(girl);
+      }
+    });
+  };
+
   return FilesController;
 
 })(ApplicationController);

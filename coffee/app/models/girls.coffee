@@ -46,6 +46,30 @@ module.exports = (db) ->
                     unless err
                         @files = girl.files
                     callback err, @
+
+            change_main_photo: (file, callback) ->
+                new_main = _.find @files, (_file) ->
+                    file.file_id is _file.file_id
+                unless new_main
+                    callback new Error "Girl #{@girl_id} hasn't file #{file.file_id}"
+                    return
+                unless new_main.type is 'photo'
+                    callback new Error "File #{file.file_id} isn't photo"
+                    return
+                if new_main.is_main
+                    callback new Error "File #{file.file_id} already is main"
+                    return
+                old_main = _.find @files, (_file) ->
+                    _file.is_main
+                funcs = []
+                if old_main
+                    old_main.is_main = off
+                    funcs.push old_main.save
+                new_main.is_main = on
+                funcs.push new_main.save
+                async.series funcs, (err, files) =>
+                    callback err, @
+
         }
     }
 

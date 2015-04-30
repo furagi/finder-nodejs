@@ -31,8 +31,8 @@ p select categories
       span.sr-only
 p(ng-if="current.files.length > 0") Have photo
 ul(ng-if="current.files.length > 0")
-  li(ng-repeat="file in current.files" ng-class="{main: file.is_main}")
+  li(ng-repeat="file in current.files | orderBy: '-is_main'" ng-class="{main: file.is_main}")
     img(ng-src="{{file.path}}", alt="")
-    a(href="", ng-if="!file.is_main", ng-click="delete_file(file)")
+    a(href="", ng-click="delete_file(file)")
       i.fa.fa-times
-    a(href="") main
+    a(href="", ng-if="!file.is_main", ng-click="change_main_photo(file)") main

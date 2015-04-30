@@ -10,6 +10,10 @@ finder_services.factory 'Girl', [
         Girl = $resource '/girls/:girl_id', {
                 girl_id: '@girl_id'
             }, {
+                change_main_photo: {
+                    method: 'POST'
+                    url: '/girls/:girl_id/change_main_photo'
+                }
             }
         Girl::save = (callback) ->
             options = {

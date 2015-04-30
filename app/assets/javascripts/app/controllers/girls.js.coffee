@@ -69,6 +69,15 @@ GirlsCtrl = ($scope, Girl, Category) ->
     $scope.clear = ->
         $scope.edit(new Girl())
 
+    $scope.change_main_photo = (file) ->
+        i = -1
+        _.find $scope.girls, (girl, _i) ->
+            if girl.girl_id is file.girl_id
+                i = _i
+                return on
+        if i isnt -1
+            $scope.girls[i].$change_main_photo {file_id: file.file_id}
+
     $scope.girls = Girl.query()
     $scope.clear()
 

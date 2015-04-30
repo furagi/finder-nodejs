@@ -142,3 +142,20 @@ module.exports = class FilesController extends ApplicationController
                 res.status(500).send err.message or err
             else
                 res.send girl
+
+    change_main_photo: (req, res) ->
+        file_id = req.param 'file_id'
+        if typeof file_id is 'string'
+            file_id = +file_id
+        if isNaN(file_id)
+            res.status(400).send 'Wrong file_id'
+            return
+        file = new Files({file_id})
+        async.waterfall [
+            (next) -> Girls.get req.params.id, next
+            (girl, next) -> girl.change_main_photo file, next
+        ], (err, girl) ->
+            if err
+                res.status(500).send err.message or err
+            else
+                res.send girl

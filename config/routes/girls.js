@@ -18,5 +18,6 @@ module.exports = function(app) {
   app.get('/girls', girls.index);
   app.post('/girls', girls.allow_only_admin, multipart, girls.create);
   app["delete"]('/girls/:id', girls.allow_only_admin, girls.destroy);
-  return app.post('/girls/:id', girls.allow_only_admin, multipart, girls.update);
+  app.post('/girls/:id', girls.allow_only_admin, multipart, girls.update);
+  return app.post('/girls/:id/change_main_photo', girls.allow_only_admin, girls.change_main_photo);
 };
